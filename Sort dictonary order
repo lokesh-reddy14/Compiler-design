@@ -1,0 +1,47 @@
+#write a c program to read a sentence from keyboard and store each word in array and sort them in dictonary order
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_WORDS 100
+#define MAX_WORD_LENGTH 50
+
+void sortWords(char words[MAX_WORDS][MAX_WORD_LENGTH], int count) {
+    int i, j;
+    char temp[MAX_WORD_LENGTH];
+
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - i - 1; j++) {
+            if (strcmp(words[j], words[j + 1]) > 0) {
+                strcpy(temp, words[j]);
+                strcpy(words[j], words[j + 1]);
+                strcpy(words[j + 1], temp);
+            }
+        }
+    }
+}
+
+int main() {
+    char sentence[1000];
+    char words[MAX_WORDS][MAX_WORD_LENGTH];
+    int i, j, count = 0;
+
+    printf("Enter a sentence: ");
+    fgets(sentence, sizeof(sentence), stdin);
+
+    char *token = strtok(sentence, " \n\t");
+
+    while (token != NULL && count < MAX_WORDS) {
+        strcpy(words[count], token);
+        count++;
+        token = strtok(NULL, " \n\t");
+    }
+
+    sortWords(words, count);
+
+    printf("\nWords in dictionary order:\n");
+    for (i = 0; i < count; i++) {
+        printf("%s\n", words[i]);
+    }
+
+    return 0;
+}
