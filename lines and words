@@ -1,0 +1,49 @@
+//write a c program to read a text file containing multiple sentence and find how many lines are their in the file and for each line how many words are their in file
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+int countWords(char *line) {
+    int count = 0;
+    char *token = strtok(line, " \n\t");
+    
+    while (token != NULL) {
+        count++;
+        token = strtok(NULL, " \n\t");
+    }
+
+    return count;
+}
+
+int main() {
+    FILE *file;
+    char filename[100];
+    char line[1000];
+    int lineCount = 0;
+    int totalWordCount = 0;
+
+    printf("Enter the filename: ");
+    scanf("%s", filename);
+
+    file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        lineCount++;
+        int wordCount = countWords(line);
+        totalWordCount += wordCount;
+
+        printf("Line %d: Words = %d\n", lineCount, wordCount);
+    }
+
+    printf("\nTotal lines in the file: %d\n", lineCount);
+    printf("Total words in the file: %d\n", totalWordCount);
+
+    fclose(file);
+
+    return 0;
+}
